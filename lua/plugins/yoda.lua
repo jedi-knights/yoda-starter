@@ -8,10 +8,10 @@ return {
   {
     "jedi-knights/yoda.nvim",
 
-    -- PRE-RELEASE: tracking main until yoda.nvim v1.0.0 is tagged. Once it is,
-    -- change this to `version = "*"` to follow released majors instead, which
-    -- is what you want for a stable install.
-    branch = "main",
+    -- Follow released majors. `version = "*"` resolves to the newest v1.x
+    -- tag, so you get fixes and features but never an unannounced breaking
+    -- change -- a v2.0.0 would not be picked up until you widen this.
+    version = "*",
 
     -- Pulls in yoda's core plugin specs. Without this you get the yoda Lua
     -- modules but none of the plugins the distribution is built from.

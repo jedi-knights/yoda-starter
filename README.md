@@ -110,11 +110,10 @@ developer should not pay startup cost for the Rust toolchain.
 `lazy-lock.json` in *your* clone pins exact revisions — commit it. To roll back
 a bad update, restore the previous lock file and run `:Lazy restore`.
 
-## Pre-release note
-
-yoda.nvim v1.0.0 is not tagged yet, so `lua/plugins/yoda.lua` currently tracks
-`branch = "main"`. When v1.0.0 ships, change that line to `version = "*"` to
-follow released majors instead — which is what you want for a stable install.
+`lua/plugins/yoda.lua` pins `version = "*"`, which follows the newest yoda.nvim
+**v1.x** release. You will get fixes and features, but never an unannounced
+breaking change — a future v2.0.0 is not picked up until you widen that
+constraint deliberately.
 
 ## Links
 
