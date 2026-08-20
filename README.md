@@ -88,18 +88,34 @@ something looks wrong.
 ## Language extras
 
 Language stacks are opt-in. `lua/plugins/yoda.lua` ships with Lua enabled and
-the rest commented out — uncomment what you use:
+the rest commented out — uncomment what you use. A Go developer should not pay
+startup cost for the Rust toolchain.
 
-```lua
-{ import = "yoda.extras.lang.lua" },
-{ import = "yoda.extras.lang.go" },
-{ import = "yoda.extras.lang.node" },
-{ import = "yoda.extras.lang.python" },
-{ import = "yoda.extras.lang.rust" },
-```
+| extra | LSP | tests | debug |
+|---|---|---|---|
+| `lang.lua` | lazydev | — | — |
+| `lang.go` | gopls | neotest-golang | nvim-dap-go |
+| `lang.node` | ts_ls | jest + vitest | vscode-js-debug |
+| `lang.python` | basedpyright | neotest-python | nvim-dap-python |
+| `lang.rust` | rust-analyzer | rustaceanvim | rustaceanvim |
+| `lang.java` | jdtls¹ | neotest-java | java-debug-adapter |
+| `lang.csharp` | omnisharp | neotest-dotnet | netcoredbg |
+| `lang.ruby` | ruby-lsp | rspec + minitest | nvim-dap-ruby |
+| `lang.vbnet` | omnisharp² | — | netcoredbg |
+| `lang.perl` | perlnavigator | — | perl-debug-adapter |
+| `lang.ocaml` | ocaml-lsp | — | — |
+| `lang.cobol` | cobol_ls | — | — |
 
-Each brings that language's neotest adapter, DAP adapter and tooling. A Go
-developer should not pay startup cost for the Rust toolchain.
+A dash means no integration exists for that language, not that it was left
+out — there is no neotest adapter for COBOL to ship.
+
+¹ **Java needs one manual step.** jdtls requires a workspace directory and JVM
+flags Mason cannot supply, so install it yourself: `brew install jdtls`.
+Everything else in the table installs automatically via Mason on first use.
+
+² omnisharp serves both C# and VB.NET. Enabling `lang.csharp` and
+`lang.vbnet` together is fine — the shared server and debugger are installed
+once.
 
 ## Updating
 
@@ -110,10 +126,12 @@ developer should not pay startup cost for the Rust toolchain.
 `lazy-lock.json` in *your* clone pins exact revisions — commit it. To roll back
 a bad update, restore the previous lock file and run `:Lazy restore`.
 
-`lua/plugins/yoda.lua` pins `version = "*"`, which follows the newest yoda.nvim
-**v1.x** release. You will get fixes and features, but never an unannounced
-breaking change — a future v2.0.0 is not picked up until you widen that
-constraint deliberately.
+`lua/plugins/yoda.lua` pins `version = "^2.0.0"`, which lazy.nvim reads as
+`>=2.0.0 <3.0.0`. You get every fix and feature in the v2 line, but a future
+v3.0.0 is not installed until you change that line yourself.
+
+Note that `version = "*"` does **not** do this — it parses to an unbounded
+range and will happily install a new major.
 
 ## Links
 

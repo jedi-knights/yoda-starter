@@ -8,10 +8,14 @@ return {
   {
     "jedi-knights/yoda.nvim",
 
-    -- Follow released majors. `version = "*"` resolves to the newest v1.x
-    -- tag, so you get fixes and features but never an unannounced breaking
-    -- change -- a v2.0.0 would not be picked up until you widen this.
-    version = "*",
+    -- Pin to the v2 major. lazy.nvim parses "^2.0.0" as >=2.0.0 <3.0.0, so
+    -- you get every fix and feature in v2 but never an unannounced breaking
+    -- change; moving to v3 is a deliberate edit here.
+    --
+    -- NOT `version = "*"` -- that parses to an unbounded range starting at
+    -- 0.0.0 and matches ANY release, majors included, which is the opposite
+    -- of what a pin is for.
+    version = "^2.0.0",
 
     -- Pulls in yoda's core plugin specs. Without this you get the yoda Lua
     -- modules but none of the plugins the distribution is built from.
@@ -51,12 +55,27 @@ return {
   },
 
   -- ── Language extras ────────────────────────────────────────────────────
-  -- Opt in to the stacks you use and delete the rest. Each pulls in that
-  -- language's neotest adapter, DAP adapter and tooling. Nothing here is
-  -- required; yoda's core works with none of them enabled.
+  -- Uncomment the stacks you use. Nothing here is required; yoda's core
+  -- works with none of them enabled, and each one you leave commented is
+  -- startup time you do not pay.
+  --
+  -- Full stacks -- language server, test runner and debugger:
   { import = "yoda.extras.lang.lua" },
   -- { import = "yoda.extras.lang.go" },
   -- { import = "yoda.extras.lang.node" },
   -- { import = "yoda.extras.lang.python" },
   -- { import = "yoda.extras.lang.rust" },
+  -- { import = "yoda.extras.lang.java" },    -- jdtls must be installed
+  --                                          -- separately: brew install jdtls
+  -- { import = "yoda.extras.lang.csharp" },
+  -- { import = "yoda.extras.lang.ruby" },
+  --
+  -- Language server and debugger, but no test integration -- no neotest
+  -- adapter exists for these languages:
+  -- { import = "yoda.extras.lang.vbnet" },
+  -- { import = "yoda.extras.lang.perl" },
+  --
+  -- Language server only -- no test or debug adapter exists:
+  -- { import = "yoda.extras.lang.ocaml" },
+  -- { import = "yoda.extras.lang.cobol" },
 }
